@@ -1,5 +1,6 @@
 package com.actionbarsherlock.internal.nineoldandroids.view.animation;
 
+import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 import android.graphics.Matrix;
 import android.os.Build;
@@ -23,7 +24,7 @@ public final class AnimatorProxy extends Animation {
         return proxy;
     }
 
-    private final View mView;
+    private final WeakReference<View> mView;
 
     private float mAlpha = 1f;
     private float mTranslationX = 0f;
@@ -35,7 +36,7 @@ public final class AnimatorProxy extends Animation {
         setDuration(0); //perform transformation immediately
         setFillAfter(true); //persist transformation beyond duration
         view.setAnimation(this);
-        mView = view;
+        mView = new WeakReference<View>(view);
     }
 
     public float getAlpha() {
@@ -44,7 +45,9 @@ public final class AnimatorProxy extends Animation {
     public void setAlpha(float alpha) {
         if (mAlpha != alpha) {
             mAlpha = alpha;
-            mView.invalidate();
+            View v = mView.get();
+            if(v != null)
+            	v.invalidate();
         }
     }
     public float getTranslationX() {
@@ -85,7 +88,9 @@ public final class AnimatorProxy extends Animation {
     }
 
     private void invalidateParent() {
-        ((ViewGroup)mView.getParent()).invalidate();
+    	View v = mView.get();
+    	if(v != null)
+    		((ViewGroup)v.getParent()).invalidate();
     }
 
     @Override

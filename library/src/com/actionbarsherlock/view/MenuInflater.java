@@ -22,7 +22,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
@@ -31,7 +30,6 @@ import android.util.Xml;
 import android.view.InflateException;
 import android.view.View;
 import com.actionbarsherlock.internal.view.menu.MenuItemImpl;
-import com.actionbarsherlock.internal.view.menu.MenuWrapper;
 
 /**
  * This class is used to instantiate menu XML files into Menu objects.
@@ -90,11 +88,6 @@ public class MenuInflater {
      *            added to this Menu.
      */
     public void inflate(int menuRes, Menu menu) {
-        if (menu instanceof MenuWrapper && mContext instanceof Activity) {
-            //Proxy to native when we're wrapping a native menu
-            ((Activity)mContext).getMenuInflater().inflate(menuRes, ((MenuWrapper)menu).unwrap());
-            return;
-        }
         XmlResourceParser parser = null;
         try {
             parser = mContext.getResources().getLayout(menuRes);
@@ -464,10 +457,12 @@ public class MenuInflater {
                         new InflatedOnMenuItemClickListener(mContext, itemListenerMethodName));
             }
 
-            if (item instanceof MenuItemImpl) {
-                MenuItemImpl impl = (MenuItemImpl) item;
-                if (itemCheckable >= 2) {
+            if (itemCheckable >= 2) {
+                if (item instanceof MenuItemImpl) {
+                    MenuItemImpl impl = (MenuItemImpl) item;
                     impl.setExclusiveCheckable(true);
+                } else {
+                    menu.setGroupCheckable(groupId, true, true);
                 }
             }
 

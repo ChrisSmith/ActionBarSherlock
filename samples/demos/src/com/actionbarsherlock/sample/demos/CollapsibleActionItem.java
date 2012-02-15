@@ -26,7 +26,8 @@ public class CollapsibleActionItem extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add("Search")
-            .setIcon(R.drawable.ic_search).setActionView(R.layout.collapsible_edittext)
+            .setIcon(R.drawable.ic_search)
+            .setActionView(R.layout.collapsible_edittext)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
         return true;
@@ -37,6 +38,6 @@ public class CollapsibleActionItem extends SherlockActivity {
         setTheme(SampleList.THEME); //Used for theme switching in samples
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text);
-        ((TextView)findViewById(R.id.text)).setText(R.string.actionbar_collapsible_content);
+        ((TextView)findViewById(R.id.text)).setText(R.string.collapsible_content);
     }
 }

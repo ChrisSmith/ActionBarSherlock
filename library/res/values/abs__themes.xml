@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <style name="Sherlock.__Theme" parent="android:Theme.NoTitleBar"></style>
-    <style name="Sherlock.__Theme.Light" parent="android:Theme.Light.NoTitleBar"></style>
-    <style name="Sherlock.__Theme.DarkActionBar" parent="Theme.Sherlock.Light"></style>
+    <style name="Sherlock.__Theme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="Sherlock.__Theme.Light" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="Sherlock.__Theme.DarkActionBar" parent="Theme.Sherlock.Light">
+    </style>
     
     <style name="Theme.Sherlock" parent="Sherlock.__Theme">
         <!-- Action bar styles (from Theme.Holo) -->
@@ -33,6 +38,8 @@
         <item name="homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_dark</item>
         
         <item name="dividerVertical">@drawable/abs__list_divider_holo_dark</item>
+        
+        <item name="spinnerItemStyle">@style/Widget.Sherlock.TextView.SpinnerItem</item>
         
         <item name="textColorPrimary">@color/abs__primary_text_holo_dark</item>
         <item name="textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
@@ -77,6 +84,8 @@
         <item name="homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
         
         <item name="dividerVertical">@drawable/abs__list_divider_holo_light</item>
+        
+        <item name="spinnerItemStyle">@style/Widget.Sherlock.TextView.SpinnerItem</item>
         
         <item name="textColorPrimary">@color/abs__primary_text_holo_light</item>
         <item name="textColorPrimaryInverse">@color/abs__primary_text_holo_dark</item>

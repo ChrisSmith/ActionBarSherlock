@@ -16,33 +16,21 @@
 package com.actionbarsherlock.sample.demos;
 
 import android.os.Bundle;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+import android.widget.TextView;
 
-public class PreferenceSimple extends SherlockPreferenceActivity {
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Save")
-            .setIcon(R.drawable.ic_compose)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+import com.actionbarsherlock.ActionBarSherlock;
+import com.actionbarsherlock.app.SherlockActivity;
 
-        menu.add("Search")
-            .setIcon(R.drawable.ic_search)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        menu.add("Refresh")
-            .setIcon(R.drawable.ic_refresh)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        return super.onCreateOptionsMenu(menu);
+public class ForcedCompatImpl extends SherlockActivity {
+    public ForcedCompatImpl() {
+        super(ActionBarSherlock.FLAG_ALWAYS_COMPAT);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(SampleList.THEME); //Used for theme switching in samples
         super.onCreate(savedInstanceState);
-
-        addPreferencesFromResource(R.xml.preferences);
+        setContentView(R.layout.text);
+        ((TextView)findViewById(R.id.text)).setText(R.string.forced_compat_content);
     }
 }

@@ -16,33 +16,24 @@
 package com.actionbarsherlock.sample.demos;
 
 import android.os.Bundle;
-import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 
-public class SubMenus extends SherlockActivity {
+public class Preference extends SherlockPreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("Save")
+            .setIcon(R.drawable.ic_compose)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        SubMenu subMenu1 = menu.addSubMenu("Action Item");
-        subMenu1.add("Sample");
-        subMenu1.add("Menu");
-        subMenu1.add("Items");
+        menu.add("Search")
+            .setIcon(R.drawable.ic_search)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        MenuItem subMenu1Item = subMenu1.getItem();
-        subMenu1Item.setIcon(R.drawable.ic_title_share_default);
-        subMenu1Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        SubMenu subMenu2 = menu.addSubMenu("Overflow Item");
-        subMenu2.add("These");
-        subMenu2.add("Are");
-        subMenu2.add("Sample");
-        subMenu2.add("Items");
-
-        MenuItem subMenu2Item = subMenu2.getItem();
-        subMenu2Item.setIcon(R.drawable.ic_compose);
+        menu.add("Refresh")
+            .setIcon(R.drawable.ic_refresh)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -51,7 +42,7 @@ public class SubMenus extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(SampleList.THEME); //Used for theme switching in samples
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.text);
-        ((TextView)findViewById(R.id.text)).setText(R.string.submenus_content);
+
+        addPreferencesFromResource(R.xml.preferences);
     }
 }

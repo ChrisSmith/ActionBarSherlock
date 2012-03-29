@@ -1,9 +1,9 @@
 package com.actionbarsherlock.sample.demos;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -21,10 +21,9 @@ public class ListNavigation extends SherlockActivity implements ActionBar.OnNavi
 
         mLocations = getResources().getStringArray(R.array.locations);
 
-        //NOTE: It is very important that you use 'sherlock_spinner_item' here
-        //      and NOT 'simple_spinner_item' or you will see text color problems
-        ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(this, R.array.locations, R.layout.sherlock_spinner_item);
-        list.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Context context = getSupportActionBar().getThemedContext();
+        ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(context, R.array.locations, R.layout.sherlock_spinner_item);
+        list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);

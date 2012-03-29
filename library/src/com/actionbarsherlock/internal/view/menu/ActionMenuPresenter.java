@@ -16,10 +16,10 @@
 
 package com.actionbarsherlock.internal.view.menu;
 
+import static com.actionbarsherlock.internal.ResourcesCompat.getResources_getInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -34,15 +34,12 @@ import android.view.View.MeasureSpec;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.internal.view.View_HasStateListenerSupport;
 import com.actionbarsherlock.internal.view.View_OnAttachStateChangeListener;
 import com.actionbarsherlock.internal.view.menu.ActionMenuView.ActionMenuChildView;
 import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.MenuItem;
-
-import static com.actionbarsherlock.internal.ActionBarSherlockCompat.getResources_getInteger;
 
 /**
  * MenuPresenter for building action menus as seen in the action bar and action modes.
@@ -90,7 +87,6 @@ public class ActionMenuPresenter extends BaseMenuPresenter
 
         if (!mReserveOverflowSet) {
             mReserveOverflow = reserveOverflow(mContext);
-            mReserveOverflowSet = true;
         }
 
         if (!mWidthLimitSet) {
@@ -134,7 +130,13 @@ public class ActionMenuPresenter extends BaseMenuPresenter
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB);
         } else {
-            return !ViewConfiguration.get(context).hasPermanentMenuKey();
+            return !HasPermanentMenuKey.get(context);
+        }
+    }
+
+    private static class HasPermanentMenuKey {
+        public static boolean get(Context context) {
+            return ViewConfiguration.get(context).hasPermanentMenuKey();
         }
     }
 
@@ -303,7 +305,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter
      */
     public boolean showOverflowMenu() {
         if (mReserveOverflow && !isOverflowMenuShowing() && mMenu != null && mMenuView != null &&
-                mPostedOpenRunnable == null) {
+                mPostedOpenRunnable == null && !mMenu.getNonActionItems().isEmpty()) {
             OverflowPopup popup = new OverflowPopup(mContext, mMenu, mOverflowButton, true);
             mPostedOpenRunnable = new OpenOverflowRunnable(popup);
             // Post this for later; we might still need a layout for the anchor to be right.
@@ -683,6 +685,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter
     }
 
     private class PopupPresenterCallback implements MenuPresenter.Callback {
+
         @Override
         public boolean onOpenSubMenu(MenuBuilder subMenu) {
             if (subMenu == null) return false;
